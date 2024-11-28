@@ -33,9 +33,9 @@ currently being supported with security updates.
 | Version | Supported          |
 | ------- | ------------------ |
 | u22.04  | :white_check_mark: |
-| d12  | :x:                |
-| u20.04 | :white_check_mark: |
-| d11   | :x:                |
+| d12  | :white_check_mark:    |
+| u20.04 | :white_check_mark:  |
+| d11   | :white_check_mark:   |
 
 ## Reporting a Vulnerability
 
