@@ -26,7 +26,7 @@ read -p "Enter your Bot Token: " BOT_TOKEN
 
 # Update bot.py with the token
 if [[ -f "bot.py" ]]; then
-    sed -i "s/YOUR_BOT_TOKEN/$BOT_TOKEN/" bot.py
+    sed -i "s/TOKEN = '.*'/TOKEN = '$BOT_TOKEN'/" bot.py
     echo "Bot token successfully updated in bot.py."
 else
     echo "Error: bot.py not found. Ensure the file exists in the directory."
