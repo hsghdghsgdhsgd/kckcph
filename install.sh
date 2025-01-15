@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Welcome User To Automated Installer"
+echo "Welcome To Automated Installer"
 
 # Check for required tools
 if ! command -v docker &> /dev/null; then
@@ -12,6 +12,16 @@ if ! command -v python3 &> /dev/null; then
     echo "Python3 is not installed. Please install Python3 and try again."
     exit 1
 fi
+
+# Verify the key
+CORRECT_KEY="crashcloud95"
+read -p "Enter the setup key to proceed: " USER_KEY
+
+if [[ "$USER_KEY" != "$CORRECT_KEY" ]]; then
+    echo "Invalid key. Access denied."
+    exit 1
+fi
+echo "Key verified successfully. Proceeding with setup..."
 
 # Clone the repository
 REPO_URL="https://github.com/BossOPMC94/CRASHCLOUD-VPS-MAKER-BOT.git"
