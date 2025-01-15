@@ -13,8 +13,6 @@ RUN apt-get update && apt-get install -y \
     iproute2 \
     hostname \
     && rm -rf /var/lib/apt/lists/*
-RUN echo "crashcloud" > /etc/hostname
-RUN echo "127.0.0.1 crashcloud" >> /etc/hosts
 
 
 CMD ["bash"]
