@@ -37,10 +37,6 @@ fi
 echo "Installing requirements..."
 pip install -r requirements.txt || { echo "Failed to install requirements."; exit 1; }
 
-# Create Dockerfile
-echo "Creating Dockerfile..."
-touch Dockerfile
-
 # Build Docker image
 echo "Building Docker image..."
 docker build -t ubuntu-22.04-with-tmate . || { echo "Docker build failed."; exit 1; }
