@@ -121,7 +121,34 @@ async def bal(interaction: discord.Interaction):
     user_id = interaction.user.id
     credits = user_credits.get(user_id, 0)
     await interaction.response.send_message(f"You have {credits} credits.")
+#portnew
+@bot.tree.command(name="port-forward-new", description="Set up port forwarding for a container using localhost.run.")
+@app_commands.describe(container_name="The name of the container", container_port="The port inside the container to forward")
+async def port_forward_win(interaction: discord.Interaction, container_name: str, container_port: int):
+    await interaction.response.defer()  # Allow time for execution
+    try:
+        # Use localhost.run for port forwarding
+        command = f"docker exec -it {container_name} ssh -R 80:localhost:{container_port} ssh.localhost.run"
+        process = await asyncio.create_subprocess_shell(command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        stdout, stderr = await process.communicate()
 
+        if stdout:
+            output = stdout.decode().strip()
+            await interaction.followup.send(embed=discord.Embed(
+                description=f"### Port Forwarding Successful:\n{output}",
+                color=0x00ff00
+            ))
+        if stderr:
+            error = stderr.decode().strip()
+            await interaction.followup.send(embed=discord.Embed(
+                description=f"### Error in Port Forwarding:\n{error}",
+                color=0xff0000
+            ))
+    except Exception as e:
+        await interaction.followup.send(embed=discord.Embed(
+            description=f"### Failed to set up port forwarding: {str(e)}",
+            color=0xff0000
+        ))
 
 # Node Status Command
 def get_node_status():
