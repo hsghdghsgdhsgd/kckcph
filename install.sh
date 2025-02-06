@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "```                    
+# #     ##       ## 
+# #     # #     #   
+# #     ##       #  
+# #     #         # 
+ #      #       ##  
+```"
 echo "Welcome To Automated Installer"
 
 # Check for required tools
