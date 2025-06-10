@@ -14,18 +14,23 @@ RUN apt-get update && apt-get install -y \
     hostname \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python and pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# ✅ Install Python and pip
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && ln -s /usr/bin/pip3 /usr/bin/pip
 
-# Copy and install Python requirements
+# ✅ Copy and install Python requirements
 COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Copy bot files
+# ✅ Copy bot files
 COPY . /app
 
-# Change CMD to run your bot
+# ✅ Change CMD to run your bot
 CMD ["python3", "bot.py"]
 
+# ✅ Keep systemd running
 ENTRYPOINT ["/sbin/init"]
