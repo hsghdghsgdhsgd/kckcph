@@ -13,7 +13,7 @@ import asyncio
 from discord import app_commands
 import requests
 
-# Set Your Bot Token gay
+# Set Your Bot Token dude 
 TOKEN = 'YOUR_BOT_TOKEN'
 RAM_LIMIT = '2g' #Set Your Own Ram How Much You Want To Give Your Users
 SERVER_LIMIT = 2 #you can change it!
