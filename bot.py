@@ -13,10 +13,14 @@ import asyncio
 from discord import app_commands
 import requests
 
-# Set Your Bot Token dude 
-TOKEN = 'MTM4MTkwNjgzOTQ1Njk3Njg5Nw.GMUYpM.umjx6GhmLjXA_4bvyP_ug7mqHsQDL5aVRccQZ4'
-RAM_LIMIT = '2g' #Set Your Own Ram How Much You Want To Give Your Users
-SERVER_LIMIT = 2 #you can change it!
+load_dotenv()
+
+# ✅ Use environment variable for your token
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+# 🧠 Your other config
+RAM_LIMIT = '2g'  # Set Your Own RAM Limit
+SERVER_LIMIT = 2  # How many servers per user
 database_file = 'database.txt'
 
 intents = discord.Intents.default()
