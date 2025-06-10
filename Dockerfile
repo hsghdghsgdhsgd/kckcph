@@ -32,5 +32,3 @@ COPY . /app
 # ✅ Change CMD to run your bot
 CMD ["python3", "bot.py"]
 
-# ✅ Keep systemd running
-ENTRYPOINT ["/sbin/init"]
