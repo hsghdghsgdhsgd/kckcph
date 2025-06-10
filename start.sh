@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Start systemd in the background
 /sbin/init &
-
-# Optional: give it a moment to fully start systemd
 sleep 5
 
-# Start your bot
+echo "--- STARTING BOT ---"
 python3 /app/bot.py
+echo "--- BOT EXITED WITH CODE $? ---"
+
+# Keep container alive for debugging
+tail -f /dev/null
