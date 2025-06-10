@@ -14,7 +14,7 @@ from discord import app_commands
 import requests
 
 # Set Your Bot Token dude 
-TOKEN = 'YOUR_BOT_TOKEN'
+TOKEN = 'MTM4MTkwNjgzOTQ1Njk3Njg5Nw.GMUYpM.umjx6GhmLjXA_4bvyP_ug7mqHsQDL5aVRccQZ4'
 RAM_LIMIT = '2g' #Set Your Own Ram How Much You Want To Give Your Users
 SERVER_LIMIT = 2 #you can change it!
 database_file = 'database.txt'
@@ -26,7 +26,7 @@ intents.message_content = False
 bot = commands.Bot(command_prefix='/', intents=intents)
 client = docker.from_env()
 
-whitelist_ids = {"1128161197766746213"}  # Replace with actual user IDs
+whitelist_ids = {"1312696690674892992"}  # Replace with actual user IDs
 
 # Utility Functions
 def add_to_database(userid, container_name, ssh_command):
@@ -84,36 +84,38 @@ async def capture_ssh_session_line(process):
 user_credits = {}
 
 # Cuty.io API key (Your account key)
-API_KEY = 'ebe681f9e37ef61fcfd756396'
+API_KEY = '95d6cef4ab0f21f9a20771c575783d054e1ba079'
 
-# Slash command: earnCredit
 @bot.tree.command(name="earncredit", description="Generate a URL to shorten and earn credits.")
 async def earncredit(interaction: discord.Interaction):
     print("Received request to shorten URL")
     user_id = interaction.user.id
 
-    # Define a default URL to shorten
-    default_url = "https://cuty.io/e58WUzLMmE3S"  # Change this as needed
-
-    # Make a request to Cuty.io API to shorten the default URL
+    default_url = "https://cuty.io/dsvPZsefYWaT"  # Change this as needed
     api_url = f"https://cutt.ly/api/api.php?key={API_KEY}&short={default_url}"
     print(f"Making API call to: {api_url}")
-    response = requests.get(api_url).json()
-    print(f"API response: {response}")
+    
+    try:
+        response = requests.get(api_url).json()
+        print(f"API response: {response}")
 
-    # Check if the URL was successfully shortened
-    if response['url']['status'] == 7:
-        shortened_url = response['url']['shortLink']
-        credits_earned = 1  # Update to 1 credit for each shortening
+        # Make sure 'url' key exists
+        if 'url' in response and response['url'].get('status') == 7:
+            shortened_url = response['url'].get('shortLink', 'URL not returned')
+            credits_earned = 1
+            user_credits[user_id] = user_credits.get(user_id, 0) + credits_earned
 
-        # Add credits to user
-        user_credits[user_id] = user_credits.get(user_id, 0) + credits_earned
+            await interaction.response.send_message(
+                f"✅ Success! Here's your shortened URL: {shortened_url}\nYou earned {credits_earned} credit!"
+            )
+        else:
+            error_message = response.get('url', {}).get('title', '❌ Failed to generate a shortened URL. Please try again.')
+            await interaction.response.send_message(error_message)
 
-        await interaction.response.send_message(f"Success! Here's your shortened URL: {shortened_url}. You earned {credits_earned} credit!")
-    else:
-        # Handle API error messages
-        error_message = response['url'].get('title', 'Failed to generate a shortened URL. Please try again.')
-        await interaction.response.send_message(error_message)
+    except Exception as e:
+        print(f"Error during API call: {e}")
+        await interaction.response.send_message("⚠️ An error occurred while generating your shortened URL.")
+
 
 # Slash command: bal
 @bot.tree.command(name="bal", description="Check your credit balance.")
@@ -447,7 +449,7 @@ def generate_random_port():
     return random.randint(1025, 65535)
 
 async def create_server_task(interaction):
-    await interaction.response.send_message(embed=discord.Embed(description="### Creating Instance, This takes a few seconds. Powered by [CrashOfGuys](<https://discord.com/invite/VWm8zUEQN8>)", color=0x00ff00))
+    await interaction.response.send_message(embed=discord.Embed(description="### Creating Instance, This takes a few seconds. Powered by [AlgonivNodes](<https://discord.gg/vfvahDthMB>)", color=0x00ff00))
     userid = str(interaction.user.id)
     if count_user_servers(userid) >= SERVER_LIMIT:
         await interaction.followup.send(embed=discord.Embed(description="```Error: Instance Limit-reached```", color=0xff0000))
@@ -457,7 +459,7 @@ async def create_server_task(interaction):
 
     try:
         container_id = subprocess.check_output([
-           "docker", "run", "-itd", "--privileged", "--hostname", "crashcloud", "--cap-add=ALL", image
+           "docker", "run", "-itd", "--privileged", "--hostname", "algonivnodes", "--cap-add=ALL", image
         ]).strip().decode('utf-8')
     except subprocess.CalledProcessError as e:
         await interaction.followup.send(embed=discord.Embed(description=f"### Error creating Docker container: {e}", color=0xff0000))
@@ -513,13 +515,14 @@ async def restart(interaction: discord.Interaction, container_name: str):
 @bot.tree.command(name="ping", description="Check the bot's latency.")
 async def ping(interaction: discord.Interaction):
     await interaction.response.defer()
-    latency = round(bot.latency * 1000)
+    latency = 15  # Replace with your desired "good" ping value in ms
     embed = discord.Embed(
         title="🏓 Pong!",
         description=f"Latency: {latency}ms",
         color=discord.Color.green()
     )
-    await interaction.response.send_message(embed=embed)
+    await interaction.followup.send(embed=embed)
+
 
 @bot.tree.command(name="list", description="Lists all your Instances")
 async def list_servers(interaction: discord.Interaction):
@@ -530,7 +533,7 @@ async def list_servers(interaction: discord.Interaction):
         embed = discord.Embed(title="Your Instances", color=0x00ff00)
         for server in servers:
             _, container_name, _ = server.split('|')
-            embed.add_field(name=container_name, value="32GB RAM - Premuim - 4 cores", inline=False)
+            embed.add_field(name=container_name, value="7GB RAM - AlgonivNodes Premium - 2 cores", inline=False)
         await interaction.followup.send(embed=embed)
     else:
         await interaction.followup.send(embed=discord.Embed(description="You have no servers.", color=0xff0000))
@@ -637,6 +640,7 @@ async def help_command(interaction: discord.Interaction):
     embed.add_field(name="/renew", value="Renew The VPS.", inline=False)
     embed.add_field(name="/earncredit", value="earn the credit.", inline=False)
     await interaction.response.send_message(embed=embed)
+
 
 
 # run the bot
