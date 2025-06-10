@@ -29,6 +29,9 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # ✅ Copy bot files
 COPY . /app
 
-# ✅ Change CMD to run your bot
-CMD ["python3", "bot.py"]
+# ✅ Copy the startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
+# ✅ Start systemd and your bot together
+CMD ["/start.sh"]
