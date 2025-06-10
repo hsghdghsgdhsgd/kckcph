@@ -12,6 +12,8 @@ import docker
 import asyncio
 from discord import app_commands
 import requests
+from dotenv import load_dotenv
+
 
 load_dotenv()
 
